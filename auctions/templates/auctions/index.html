@@ -8,12 +8,14 @@
             <div class="card-header">
                 Listed by: {{ listing.owner }}
             </div>
-            <img src="{{ listing.image_url }}" class="card-img-top" alt="...">
-            <div class="card-body">
-            <h5 class="card-title">{{ listing.title }}</h5>
-            <h6 class="card-title">Current Price: {{ listing.current_price }}$</h6>
-            <p class="card-text">{{ listing.description }}</p>
-            <a href="#" class="btn btn-primary">See Item</a>
+            <div class="container">
+                <img src="{{ listing.image_url }}" class="card-img-top" alt="listing image" style="height: 250px; width: 100%; object-fit: contain;">
+            </div>
+                <div class="card-body">
+                <h5 class="card-title">{{ listing.title }}</h5>
+                <h6 class="card-title">Current Price: {{ listing.current_price }}$</h6>
+                <p class="card-text">{{ listing.description }}</p>
+                <a href="#" class="btn btn-primary">See Item</a>
             </div>
         </div>
     {% endfor %}

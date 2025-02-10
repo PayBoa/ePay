@@ -74,7 +74,10 @@ def createlisting(request):
         description = request.POST["description"]
         startingbid = request.POST["startingbid"]
         category = request.POST["category"]
-        image_url = request.POST["image_url"]
+        image_url = request.POST.get("image_url", "").strip() 
+        # If the field is empty, set it to the model’s default value
+        if not image_url:
+            image_url = Listing._meta.get_field("image_url").get_default()   
         owner = User.objects.get(username=request.user.username)
         
         # Create the Listing object and save it
