@@ -9,7 +9,9 @@ from .models import User, Listing, Bid, Comment, Watchlist
 
 
 def index(request):
-    return render(request, "auctions/index.html")
+    return render(request, "auctions/index.html", {
+        "listings": Listing.objects.all()
+    })
 
 
 def login_view(request):
@@ -62,6 +64,7 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/register.html")
+
 
 @login_required(login_url='login')
 def createlisting(request):
