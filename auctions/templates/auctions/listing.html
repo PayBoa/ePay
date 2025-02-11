@@ -9,4 +9,11 @@
     <h6><b>Category:</b> {{ item.category }}</h6>
     <h6><b>Starting Bid:</b> {{ item.starting_bid}}$</h6>
     <h6><b>Current Price:</b> {{ item.current_price }}$</h6>
+
+    {% if user.is_authenticated %}
+    <form action="{ url 'watchlist' item.id }" method="post">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-secondary" value="{{ message }}">
+    </form>
+    {% endif %}
 {% endblock %}

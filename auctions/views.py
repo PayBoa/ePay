@@ -99,7 +99,29 @@ def createlisting(request):
 
 
 def listing(request, listing):
-    item = Listing.objects.get(title=listing)
+    item = Listing.objects.get(title=listing) # Get all infos of the listing
+
+    message = "" # Initialize message
+    print(request.user.username)
+    print(item.id)
+    print(item.title)
+
+    if request.user.is_authenticated: # Verify if user is logged in
+        if Watchlist.objects.filter(user=request.user,listing=item.id).exists(): # If item is in user's watchlist
+            message = "Remove from Watchlist"
+        else:                                   # If item is not in user's watchlist
+            message = "Add to Watchlist"        # Message : add to watchlist
     return render(request, "auctions/listing.html", {
-        "item": item 
+        "item": item, 
+        "message": message
     })
+
+@login_required(login_url='login')
+def watchlist(request, item):
+    if request.method == "POST":
+        watchlist_entry = Watchlist.objects.filter(user=request.user, listing=item.id)
+        if watchlist_entry.exists():
+            watchlist_entry.delete()
+        else:
+            Watchlist.objects.create(user=request.user, listing=item.id)   
+    return index(request)
