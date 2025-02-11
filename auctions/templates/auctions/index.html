@@ -8,18 +8,19 @@
         {% for listing in listings %}
             <div class="col">
                 <div class="card text-center mb-3 mt-3" style="width: 18rem;">
-                    <div class="card-header">
-                        Listed by: {{ listing.owner }}
-                    </div>
-                    <div class="container">
-                        <img src="{{ listing.image_url }}" class="card-img-top" alt="listing image" style="height: 250px; width: 100%; object-fit: contain;">
-                    </div>
-                        <div class="card-body">
-                        <h5 class="card-title">{{ listing.title }}</h5>
-                        <h6 class="card-title">Current Price: {{ listing.current_price }}$</h6>
-                        <p class="card-text">{{ listing.description }}</p>
-                        <a href="#" class="btn btn-primary">See Item</a>
-                    </div>
+                    <a class="a_card" href="#">
+                        <div class="card-header">
+                            Listed by: <b>{{ listing.owner }}</b>
+                        </div>
+                        <div class="container">
+                            <img src="{{ listing.image_url }}" class="card-img-top" alt="listing image" style="height: 250px; width: 100%; object-fit: contain;">
+                        </div>
+                            <div class="card-body">
+                            <h5 class="card-title">{{ listing.title }}</h5>
+                            <h6 class="card-title">Current Price: {{ listing.current_price }}$</h6>
+                            <p class="card-text">Posted on {{ listing.created_at }}</p>
+                        </div>
+                    </a>    
                 </div>
             </div>
         {% endfor %}
