@@ -96,3 +96,10 @@ def createlisting(request):
         return HttpResponseRedirect(reverse("index"))
     
     return render(request, "auctions/createlisting.html")
+
+
+def listing(request, listing):
+    item = Listing.objects.get(title=listing)
+    return render(request, "auctions/listing.html", {
+        "item": item 
+    })

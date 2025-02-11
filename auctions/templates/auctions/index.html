@@ -8,7 +8,7 @@
         {% for listing in listings %}
             <div class="col">
                 <div class="card text-center mb-3 mt-3" style="width: 18rem;">
-                    <a class="a_card" href="#">
+                    <a class="a_card" href="{% url 'listing' listing.title %}">
                         <div class="card-header">
                             Listed by: <b>{{ listing.owner }}</b>
                         </div>
