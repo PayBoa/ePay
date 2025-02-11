@@ -130,4 +130,6 @@ def watchlist_page(request):
     for watchlist_item in watchlist_items:
         item_id.append(watchlist_item.listing.id)
     print(item_id)
-    return render(request, "auctions/watchlist_page.html")
+    return render(request, "auctions/watchlist_page.html", {
+        "listings": Listing.objects.filter(id__in=item_id)
+    })
