@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
@@ -98,15 +98,11 @@ def createlisting(request):
     return render(request, "auctions/createlisting.html")
 
 
-def listing(request, listing):
-    item = Listing.objects.get(title=listing) # Get all infos of the listing
-
+def listing(request, listing_id):
+    item = Listing.objects.get(id=listing_id) # Get all infos of the listing
     message = "" # Initialize message
-    print(request.user.username)
-    print(item.id)
-    print(item.title)
-
     if request.user.is_authenticated: # Verify if user is logged in
+
         if Watchlist.objects.filter(user=request.user,listing=item.id).exists(): # If item is in user's watchlist
             message = "Remove from Watchlist"
         else:                                   # If item is not in user's watchlist
@@ -117,11 +113,21 @@ def listing(request, listing):
     })
 
 @login_required(login_url='login')
-def watchlist(request, item):
+def watchlist_button(request, listing_id):
     if request.method == "POST":
-        watchlist_entry = Watchlist.objects.filter(user=request.user, listing=item.id)
-        if watchlist_entry.exists():
+        item = Listing.objects.get(id=listing_id) # Get all infos of the listing
+        watchlist_entry = Watchlist.objects.filter(user=request.user, listing=item) # Get Watchlist entry for this item and this user
+        if watchlist_entry.exists(): # If it exists, delete it
             watchlist_entry.delete()
-        else:
-            Watchlist.objects.create(user=request.user, listing=item.id)   
-    return index(request)
+        else:   # Else, create it
+            Watchlist.objects.create(user=request.user, listing=item)   
+    return redirect('listing', listing_id)
+
+@login_required(login_url='login')
+def watchlist_page(request):
+    watchlist_items = Watchlist.objects.filter(user=request.user)
+    item_id = []
+    for watchlist_item in watchlist_items:
+        item_id.append(watchlist_item.listing.id)
+    print(item_id)
+    return render(request, "auctions/watchlist_page.html")
