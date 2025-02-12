@@ -129,7 +129,10 @@ def watchlist_page(request):
     item_id = []
     for watchlist_item in watchlist_items:
         item_id.append(watchlist_item.listing.id)
-    print(item_id)
     return render(request, "auctions/watchlist_page.html", {
         "listings": Listing.objects.filter(id__in=item_id)
     })
+
+@login_required(login_url='login')
+def placebid(request, listing_id):
+    return redirect('listing', listing_id)

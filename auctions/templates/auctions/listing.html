@@ -1,19 +1,33 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+
     <h2>{{ item.title }}</h2>
     <p>Listed by: {{ item.owner }} on {{ item.created_at }}</p>
-    <img src="{{ item.image_url }}" alt="item image" class="mb-3" style="height: 300px; width: 100%; object-fit: contain;">
-
-    <h6>{{ item.description }}</h6>
-    <h6><b>Category:</b> {{ item.category }}</h6>
-    <h6><b>Starting Bid:</b> {{ item.starting_bid}}$</h6>
-    <h6><b>Current Price:</b> {{ item.current_price }}$</h6>
 
     {% if user.is_authenticated %}
     <form action="{% url 'watchlist_button' item.id %}" method="post">
         {% csrf_token %}
-        <input type="submit" class="btn btn-secondary" value="{{ message }}">
+        <input type="submit" class="btn btn-secondary btn-sm" value="{{ message }}">
+    </form>
+    {% endif %}
+
+    <img src="{{ item.image_url }}" alt="item image" class="mb-3" style="height: 300px; width: 100%; object-fit: contain;">
+    <hr>
+    <h6>{{ item.description }}</h6>
+    <h6><b>Category:</b> {{ item.category }}</h6>
+    <h6><b>Starting Bid:</b> {{ item.starting_bid}}$</h6>
+    <h6><b>Current Price:</b> {{ item.current_price }}$</h6>
+    <hr>
+
+    {% if user.is_authenticated %}
+    <form action="{% url 'placebid' item.id %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">Bid on this Item:</label>
+            <input class="form-control" type="number" id="bid" name="bid" placeholder="Bid" min="{{ item.current_price|add:5 }}" step="5">
+            <input type="submit" class="btn btn-primary btn-md mb-3 mt-3" value="Bid">
+        </div>
     </form>
     {% endif %}
 {% endblock %}
