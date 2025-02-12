@@ -135,4 +135,16 @@ def watchlist_page(request):
 
 @login_required(login_url='login')
 def placebid(request, listing_id):
+
+    item = Listing.objects.get(id=listing_id)
+    new_bid = request.POST["bid"]
+    print(listing_id)
+    print(request.user)
+    print(item.title)
+    print(new_bid)
+    
+    i = Listing(id=listing_id) 
+    i.current_price = new_bid
+    i.save()
+    # BUGGING HERE
     return redirect('listing', listing_id)
