@@ -135,16 +135,10 @@ def watchlist_page(request):
 
 @login_required(login_url='login')
 def placebid(request, listing_id):
-
-    item = Listing.objects.get(id=listing_id)
-    new_bid = request.POST["bid"]
-    print(listing_id)
-    print(request.user)
-    print(item.title)
-    print(new_bid)
-    
-    i = Listing(id=listing_id) 
-    i.current_price = new_bid
-    i.save()
-    # BUGGING HERE
+    if request.method == "POST":
+        new_bid = request.POST["bid"]           # Get new bid value
+        i = Listing.objects.get(id=listing_id)  # Get listing's details
+        if i.current_price < int(new_bid):      # Check if new bid is higher than current price
+            i.current_price = new_bid           # Set the new bid as the current price
+            i.save()                            # Save new current price
     return redirect('listing', listing_id)
