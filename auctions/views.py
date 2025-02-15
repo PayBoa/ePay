@@ -109,6 +109,13 @@ def listing(request, listing_id):
     # Get last bid
     last_bid = Bid.objects.filter(listing=listing_id).order_by('-timestamp').first()
 
+    # Your bid is the current bid message
+    your_bid = ""
+    if Bid.objects.filter(listing=listing_id).exists():
+        if last_bid.user == request.user:
+            your_bid = "Your bid is the current bid"
+        
+
     # Add to watchlist button
     message = ""                                            # Initialize message
     if request.user.is_authenticated:                       # Verify if user is logged in
@@ -123,6 +130,7 @@ def listing(request, listing_id):
         "message": message,
         "bid_count": bid_count,
         "last_bid": last_bid,
+        "your_bid": your_bid,
     })
 
 @login_required(login_url='login')
