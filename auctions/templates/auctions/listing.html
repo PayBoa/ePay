@@ -31,7 +31,7 @@
         {% csrf_token %}
         <div class="form-group">
             <label for="title" class="form-label"><b>Bid on this Item:</b></label>
-            <input class="form-control" type="number" id="bid" name="bid" aria-describedby="addon" placeholder="Bid" min="{{ item.current_price|add:5 }}" step="5">
+            <input class="form-control" type="number" id="bid" name="bid" aria-describedby="addon" placeholder="Bid" min="{{ minimum_bid }}" step="5">
             <div class="form-text" id="addon">{{ your_bid }}</div>
             <input type="submit" class="btn btn-primary btn-md mb-3 mt-3" value="Place Bid">
         </div>

@@ -100,6 +100,13 @@ def createlisting(request):
 
 def listing(request, listing_id):
 
+    # Minimum bid
+    item = Listing.objects.get(id=listing_id)
+    if not Bid.objects.filter(listing=listing_id):
+        minimum_bid = int(item.starting_bid)
+    else:
+        minimum_bid = int(item.current_price) + 5
+
     # Count bid number
     bid_count = 0                                           # Initialize bid count
     listing_bids = Bid.objects.filter(listing=listing_id)   # Get all bids on the listing
@@ -126,8 +133,9 @@ def listing(request, listing_id):
             message = "Add to Watchlist"        # Message : add to watchlist
 
     return render(request, "auctions/listing.html", {
-        "item": Listing.objects.get(id=listing_id), 
+        "item": item, 
         "message": message,
+        "minimum_bid": minimum_bid,
         "bid_count": bid_count,
         "last_bid": last_bid,
         "your_bid": your_bid,
@@ -161,7 +169,7 @@ def placebid(request, listing_id):
         new_bid = request.POST["bid"]           # Get new bid value
         i = Listing.objects.get(id=listing_id)  # Get listing's details
 
-        if i.current_price < int(new_bid):      # Check if new bid is higher than current price
+        if i.current_price <= int(new_bid):      # Check if new bid is higher than current price
 
             i.current_price = new_bid           # Set the new bid as the current price
             i.save()                            # Save new current price   
