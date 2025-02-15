@@ -15,18 +15,24 @@
     <img src="{{ item.image_url }}" alt="item image" class="mb-3" style="height: 300px; width: 100%; object-fit: contain;">
     <hr>
     <h6>{{ item.description }}</h6>
-    <h6><b>Category:</b> {{ item.category }}</h6>
-    <h6><b>Starting Bid:</b> {{ item.starting_bid}}$</h6>
-    <h6><b>Current Price:</b> {{ item.current_price }}$</h6>
+    <h6>Category: {{ item.category }}</h6>
+    <h6>Starting Bid:</b> {{ item.starting_bid}}$</h6>
+
+    {% if last_bid %}
+    <h6>Last Bid: <b>{{ last_bid.amount }}$</b> made by <b>{{last_bid.user }}</b> on {{ last_bid.timestamp }}</h6> 
+    {% endif %}   
+    
+    <p>{{ bid_count }} bid(s) so far.</p>
+
     <hr>
 
     {% if user.is_authenticated %}
     <form action="{% url 'placebid' item.id %}" method="post">
         {% csrf_token %}
         <div class="form-group">
-            <label for="title">Bid on this Item:</label>
+            <label for="title"><b>Bid on this Item:</b></label>
             <input class="form-control" type="number" id="bid" name="bid" placeholder="Bid" min="{{ item.current_price|add:5 }}" step="5">
-            <input type="submit" class="btn btn-primary btn-md mb-3 mt-3" value="Bid">
+            <input type="submit" class="btn btn-primary btn-md mb-3 mt-3" value="Place Bid">
         </div>
     </form>
     {% endif %}

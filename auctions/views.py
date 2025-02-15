@@ -99,17 +99,30 @@ def createlisting(request):
 
 
 def listing(request, listing_id):
-    item = Listing.objects.get(id=listing_id) # Get all infos of the listing
-    message = "" # Initialize message
-    if request.user.is_authenticated: # Verify if user is logged in
 
-        if Watchlist.objects.filter(user=request.user,listing=item.id).exists(): # If item is in user's watchlist
-            message = "Remove from Watchlist"
+    # Count bid number
+    bid_count = 0                                           # Initialize bid count
+    listing_bids = Bid.objects.filter(listing=listing_id)   # Get all bids on the listing
+    for bids in listing_bids:                               # Loop through all bids
+        bid_count = bid_count + 1                               # Update bid count
+    
+    # Get last bid
+    last_bid = Bid.objects.filter(listing=listing_id).order_by('-timestamp').first()
+
+    # Add to watchlist button
+    message = ""                                            # Initialize message
+    if request.user.is_authenticated:                       # Verify if user is logged in
+
+        if Watchlist.objects.filter(user=request.user,listing=listing_id).exists(): # If item is in user's watchlist
+            message = "Remove from Watchlist"                                    # Message : remove from watchlist
         else:                                   # If item is not in user's watchlist
             message = "Add to Watchlist"        # Message : add to watchlist
+
     return render(request, "auctions/listing.html", {
-        "item": item, 
-        "message": message
+        "item": Listing.objects.get(id=listing_id), 
+        "message": message,
+        "bid_count": bid_count,
+        "last_bid": last_bid,
     })
 
 @login_required(login_url='login')
@@ -138,7 +151,15 @@ def placebid(request, listing_id):
     if request.method == "POST":
         new_bid = request.POST["bid"]           # Get new bid value
         i = Listing.objects.get(id=listing_id)  # Get listing's details
+
         if i.current_price < int(new_bid):      # Check if new bid is higher than current price
+
             i.current_price = new_bid           # Set the new bid as the current price
-            i.save()                            # Save new current price
+            i.save()                            # Save new current price   
+
+            bid = Bid(                          # Create new bid
+                user = User.objects.get(username=request.user.username), 
+                listing = Listing.objects.get(id=listing_id), 
+                amount = new_bid)
+            bid.save()                          # Save new bid
     return redirect('listing', listing_id)
