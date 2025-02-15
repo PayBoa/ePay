@@ -120,7 +120,7 @@ def listing(request, listing_id):
     your_bid = ""
     if Bid.objects.filter(listing=listing_id).exists():
         if last_bid.user == request.user:
-            your_bid = "Your bid is the current bid"
+            your_bid = "Your bid is the current bid!"
         
 
     # Add to watchlist button

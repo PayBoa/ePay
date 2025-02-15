@@ -13,12 +13,12 @@
                             Listed by: <b>{{ listing.owner }}</b>
                         </div>
                         <div class="container">
-                            <img src="{{ listing.image_url }}" class="card-img-top" alt="listing image" style="height: 250px; width: 100%; object-fit: contain;">
+                            <img src="{{ listing.image_url }}" class="card-img-top p-2" alt="listing image" style="height: 250px; width: 100%; object-fit: contain;">
                         </div>
                             <div class="card-body">
                             <h5 class="card-title">{{ listing.title }}</h5>
-                            <h6 class="card-title">Current Price: {{ listing.current_price }}$</h6>
-                            <p class="card-text">Posted on {{ listing.created_at }}</p>
+                            <h6 class="card-title">Current Price: {{ listing.current_price|floatformat:0 }} $</h6>
+                            <p class="card-text">Posted {{ listing.created_at|timesince }} ago.</p>
                         </div>
                     </a>    
                 </div>
