@@ -133,6 +133,7 @@ def listing(request, listing_id):
         "your_bid": your_bid,
     })
 
+
 @login_required(login_url='login')
 def watchlist_button(request, listing_id):
     if request.method == "POST":
@@ -146,10 +147,10 @@ def watchlist_button(request, listing_id):
 
 @login_required(login_url='login')
 def watchlist_page(request):
-    watchlist_items = Watchlist.objects.filter(user=request.user)
-    item_id = []
-    for watchlist_item in watchlist_items:
-        item_id.append(watchlist_item.listing.id)
+    watchlist_items = Watchlist.objects.filter(user=request.user) # Get all watchlist items for this user
+    item_id = []                                                  # Initialize item_id array  
+    for watchlist_item in watchlist_items:                        # Loop through all watchlist items
+        item_id.append(watchlist_item.listing.id)                   # Add item id to the array  
     return render(request, "auctions/watchlist_page.html", {
         "listings": Listing.objects.filter(id__in=item_id)
     })
