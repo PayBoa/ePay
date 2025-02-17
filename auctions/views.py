@@ -14,6 +14,8 @@ def index(request):
     })
 
 def closed_listing(request):
+    bids = Bid.objects.order_by('-timestamp').first()
+    print(bids) #WORK TO BE DONE HERE
     return render(request, "auctions/closed_listing.html", {
         "listings": Listing.objects.filter(is_active=False)
     })
@@ -194,4 +196,4 @@ def close_auction(request, listing_id):
         i = Listing.objects.get(id=listing_id) # Retrieve listing
         i.is_active = False                    # Set is_active to false
         i.save()                               # Save new status
-    return redirect('index')
+    return redirect('closed_listing')
