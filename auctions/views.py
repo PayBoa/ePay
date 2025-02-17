@@ -189,5 +189,9 @@ def placebid(request, listing_id):
     return redirect('listing', listing_id)
 
 @login_required(login_url='login')
-def close_auction(request):
+def close_auction(request, listing_id):
+    if request.method == "POST":
+        i = Listing.objects.get(id=listing_id) # Retrieve listing
+        i.is_active = False                    # Set is_active to false
+        i.save()                               # Save new status
     return redirect('index')

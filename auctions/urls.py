@@ -13,5 +13,5 @@ urlpatterns = [
     path("<int:listing_id>/watchlist_button", views.watchlist_button, name="watchlist_button"),
     path("watchlist_page", views.watchlist_page, name="watchlist_page"),
     path("<int:listing_id>/placebid", views.placebid, name="placebid"),
-    path("close_auction", views.close_auction, name="close_auction"),
+    path("<int:listing_id>/close_auction", views.close_auction, name="close_auction"),
 ]

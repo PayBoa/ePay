@@ -9,7 +9,7 @@
             </div>
             <div class="col-md-auto">
                 {% if request.user == item.owner %}
-                <form action="{% url 'close_auction' %}" method="post">
+                <form action="{% url 'close_auction' item.id %}" method="post">
                     {% csrf_token %}
                     <input type="submit" class="btn btn-primary btn-sm" value="Close Auction">
                 </form>
