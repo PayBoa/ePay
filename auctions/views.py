@@ -10,9 +10,13 @@ from .models import User, Listing, Bid, Comment, Watchlist
 
 def index(request):
     return render(request, "auctions/index.html", {
-        "listings": Listing.objects.all()
+        "listings": Listing.objects.filter(is_active=True)
     })
 
+def closed_listing(request):
+    return render(request, "auctions/closed_listing.html", {
+        "listings": Listing.objects.filter(is_active=False)
+    })
 
 def login_view(request):
     if request.method == "POST":
@@ -100,6 +104,9 @@ def createlisting(request):
 
 def listing(request, listing_id):
 
+    # Connected user
+    connected_user = request.user
+
     # Minimum bid
     item = Listing.objects.get(id=listing_id)
     if not Bid.objects.filter(listing=listing_id):
@@ -180,3 +187,7 @@ def placebid(request, listing_id):
                 amount = new_bid)
             bid.save()                          # Save new bid
     return redirect('listing', listing_id)
+
+@login_required(login_url='login')
+def close_auction(request):
+    return redirect('index')

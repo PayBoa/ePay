@@ -1,0 +1,29 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Closed Listings</h2>
+
+    <div class="container text-center">
+        <div class="row row-cols-3">
+        {% for listing in listings %}
+            <div class="col">
+                <div class="card text-center mb-3 mt-3" style="width: 18rem;">
+                    <a class="a_card" href="{% url 'listing' listing.id %}">
+                        <div class="card-header">
+                            Listed by: <b>{{ listing.owner }}</b>
+                        </div>
+                        <div class="container">
+                            <img src="{{ listing.image_url }}" class="card-img-top p-2" alt="listing image" style="height: 250px; width: 100%; object-fit: contain;">
+                        </div>
+                            <div class="card-body">
+                            <h5 class="card-title">{{ listing.title }}</h5>
+                            <h6 class="card-title">Current Price: {{ listing.current_price|floatformat:0 }} $</h6>
+                            <p class="card-text">Posted {{ listing.created_at|timesince }} ago.</p>
+                        </div>
+                    </a>    
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}
