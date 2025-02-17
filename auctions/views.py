@@ -14,8 +14,16 @@ def index(request):
     })
 
 def closed_listing(request):
-    bids = Bid.objects.order_by('-timestamp').first()
-    print(bids) #WORK TO BE DONE HERE
+
+    # Get the winning bid for each closed listing
+    items = Listing.objects.filter(is_active=False)
+    for item in items:
+        winning_bid = Bid.objects.filter(listing=item.id).order_by('-timestamp').first()
+        item.winner = winning_bid.user
+        print(item.id)
+        print(winning_bid.user)
+        print(item.winner)
+    print(items.winner)
     return render(request, "auctions/closed_listing.html", {
         "listings": Listing.objects.filter(is_active=False)
     })
