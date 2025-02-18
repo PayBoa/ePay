@@ -203,5 +203,6 @@ def close_auction(request, listing_id):
     if request.method == "POST":
         i = Listing.objects.get(id=listing_id) # Retrieve listing
         i.is_active = False                    # Set is_active to false
+        i.winner = request.user                # Save winner of the auction
         i.save()                               # Save new status
     return redirect('closed_listing')
