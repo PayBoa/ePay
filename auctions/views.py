@@ -19,11 +19,7 @@ def closed_listing(request):
     items = Listing.objects.filter(is_active=False)
     for item in items:
         winning_bid = Bid.objects.filter(listing=item.id).order_by('-timestamp').first()
-        item.winner = winning_bid.user
-        print(item.id)
-        print(winning_bid.user)
-        print(item.winner)
-    print(items.winner)
+        
     return render(request, "auctions/closed_listing.html", {
         "listings": Listing.objects.filter(is_active=False)
     })
@@ -202,7 +198,8 @@ def placebid(request, listing_id):
 def close_auction(request, listing_id):
     if request.method == "POST":
         i = Listing.objects.get(id=listing_id) # Retrieve listing
+        b = Bid.objects.filter(listing=listing_id).order_by('-timestamp').first() # Retrieve last bid
         i.is_active = False                    # Set is_active to false
-        i.winner = request.user                # Save winner of the auction
+        i.winner = b.user                      # Save winner of the auction
         i.save()                               # Save new status
     return redirect('closed_listing')

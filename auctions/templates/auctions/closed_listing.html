@@ -17,7 +17,7 @@
                         <div class="card-body">
                         <h5 class="card-title">{{ listing.title }}</h5>
                         <h6 class="card-title">Sold at: {{ listing.current_price|floatformat:0 }} $</h6>
-                        <p class="card-text">To:</p>
+                        <p class="card-text">To: <b>{{ listing.winner }}</b></p>
                     </div>
                 </div>
             </div>
