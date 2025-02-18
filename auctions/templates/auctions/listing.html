@@ -47,7 +47,7 @@
 
     <hr>
 
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and request.user != item.owner %}
     <form action="{% url 'placebid' item.id %}" method="post">
         {% csrf_token %}
         <div class="form-group">
