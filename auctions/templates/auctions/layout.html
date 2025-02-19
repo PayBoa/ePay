@@ -30,8 +30,22 @@
                                 {% endif %}
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Categories</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Categories
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'real_estate' %}">Real Estate</a></li>
+                                <li><a class="dropdown-item" href="{% url 'vehicles' %}">Vehicles</a></li>
+                                <li><a class="dropdown-item" href="{% url 'electronics' %}">Electronics</a></li>
+                                <li><a class="dropdown-item" href="{% url 'fashion_accessories' %}">Fashion & Accessories</a></li>
+                                <li><a class="dropdown-item" href="{% url 'home_garden' %}">Home & Garden</a></li>
+                                <li><a class="dropdown-item" href="{% url 'hobbies_leisure' %}">Hobbies & Leisure</a></li>
+                                <li><a class="dropdown-item" href="{% url 'services' %}">Services</a></li>
+                                <li><a class="dropdown-item" href="{% url 'professional_equipment' %}">Professional Equipment</a></li>
+                                <li><a class="dropdown-item" href="{% url 'pets' %}">Pets</a></li>
+                                <li><a class="dropdown-item" href="{% url 'others' %}">Others</a></li>
+                            </ul>
                         </li>
                         {% if user.is_authenticated %}
                         <li class="nav-item">

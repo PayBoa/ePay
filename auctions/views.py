@@ -13,6 +13,49 @@ def index(request):
         "listings": Listing.objects.filter(is_active=True)
     })
 
+
+def real_estate(request):
+    return render(request, "auctions/real_estate.html", {
+        "listings": Listing.objects.filter(category="Real Estate",is_active=True)
+    })
+def vehicles(request):
+    return render(request, "auctions/vehicles.html", {
+        "listings": Listing.objects.filter(category="Vehicles",is_active=True)
+    })
+def electronics(request):
+    return render(request, "auctions/electronics.html", {
+        "listings": Listing.objects.filter(category="Electronics",is_active=True)
+    })
+def fashion_accessories(request):
+    return render(request, "auctions/fashion_accessories.html", {
+        "listings": Listing.objects.filter(category="Fashion & Accessories",is_active=True)
+    })
+def home_garden(request):
+    return render(request, "auctions/home_garden.html", {
+        "listings": Listing.objects.filter(category="Home & Garden",is_active=True)
+    })
+def hobbies_leisure(request):
+    return render(request, "auctions/hobbies_leisure.html", {
+        "listings": Listing.objects.filter(category="Hobbies & Leisure",is_active=True)
+    })
+def services(request):
+    return render(request, "auctions/services.html", {
+        "listings": Listing.objects.filter(category="Services",is_active=True)
+    })
+def professional_equipment(request):
+    return render(request, "auctions/professional_equipment.html", {
+        "listings": Listing.objects.filter(category="Professional Equipment",is_active=True)
+    })
+def pets(request):
+    return render(request, "auctions/pets.html", {
+        "listings": Listing.objects.filter(category="Pets",is_active=True)
+    })
+def others(request):
+    return render(request, "auctions/others.html", {
+        "listings": Listing.objects.filter(category="Others",is_active=True)
+    })
+
+
 def closed_listing(request):
     return render(request, "auctions/closed_listing.html", {
         "listings": Listing.objects.filter(is_active=False)
