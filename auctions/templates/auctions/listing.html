@@ -8,10 +8,10 @@
                 <h2>{{ item.title }}</h2>
             </div>
             <div class="col-md-auto">
-                {% if request.user == item.owner %}
-                <form action="{% url 'close_auction' item.id %}" method="post">
+                {% if user.is_authenticated %}
+                <form action="{% url 'watchlist_button' item.id %}" method="post">
                     {% csrf_token %}
-                    <input type="submit" class="btn btn-primary btn-sm" value="Close Auction">
+                    <input type="submit" class="btn btn-secondary btn-sm" value="{{ message }}">
                 </form>
                 {% endif %}
             </div>
@@ -19,13 +19,6 @@
     </div>
 
     <p>Listed by: {{ item.owner }} on {{ item.created_at }}</p>
-
-    {% if user.is_authenticated %}
-    <form action="{% url 'watchlist_button' item.id %}" method="post">
-        {% csrf_token %}
-        <input type="submit" class="btn btn-secondary btn-sm" value="{{ message }}">
-    </form>
-    {% endif %}
 
     <img src="{{ item.image_url }}" alt="item image" class="mb-3" style="height: 300px; width: 100%; object-fit: contain;">
 
@@ -58,4 +51,12 @@
         </div>
     </form>
     {% endif %}
+
+    {% if request.user == item.owner %}
+                <form action="{% url 'close_auction' item.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-primary btn-sm" value="Close Auction">
+                </form>
+    {% endif %}
+
 {% endblock %}
