@@ -2,7 +2,14 @@
 {
     font-size: 45px;
     font-weight:400;
+    padding: 0px;
+    margin-left: 20px;
+    margin-top: -13px;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1.5; 
 }
+
 
 .blue
 {
